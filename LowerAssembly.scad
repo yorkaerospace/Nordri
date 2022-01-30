@@ -4,8 +4,10 @@ MAIN_INNER = 50.8;
 TUBE_OUTER = 30.7;
 TUBE_INNER = 29;
 
+$fn=250;
+
 // Fin dimensions
-FIN_THICKNESS = 3;
+FIN_THICKNESS = 3.2;
 FIN_ROOT = 120;
 FIN_POINTS = [
     [0,0], [90,50], [150,50], [120,0]
@@ -52,8 +54,8 @@ module Ring(){
     difference(){
         linear_extrude(RING_THICKNESS-1, center=false){
             difference(){
-                circle(d=MAIN_INNER, $fn=100);
-                circle(d=TUBE_OUTER, $fn=100);
+                circle(d=MAIN_INNER);
+                circle(d=TUBE_OUTER);
             }
         }
         Fins();
@@ -61,24 +63,32 @@ module Ring(){
 }
 
 // Projects laser cut template for the ring
-*projection(){
-    Ring();
+projection(){
+    for(x = [0:MAIN_OUTER+1:200]){
+        translate([x,0,0]) {Ring();}
+    }
 }
 
 // Projects laser cut template for the fin
-*translate([60,0,0]){
-projection(){
-    Fin();
+*translate([0,0,0]){
+    projection(){
+        Fin();
+    }
 }
-}
+
+*rotate([0,0,180]){ translate([-68,- ((MAIN_OUTER - TUBE_OUTER)/2 + 50),0]){
+    projection(){
+        Fin();
+    }
+}}
 
 // ---=== Render a pretty model ===---
 // Fins in red
-color("red"){
+*color("red"){
     Fins();
 }
 // 2 rings in yellow, at the top and bottom of the fins
-color("yellow"){
+*color("yellow"){
     Ring();
     translate([0,0,-126]){
         Ring();
