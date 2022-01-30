@@ -1,0 +1,3 @@
+[submodule "jigs/jigs_generic"]
+	path = jigs/jigs_generic
+	url = https://github.com/yorkaerospace/Jigs.git
