@@ -1,10 +1,12 @@
 // Tube dimensions
 MAIN_OUTER = 53.8;
 MAIN_INNER = 50.8;
+COUPLER_INNER = MAIN_INNER - (MAIN_OUTER - MAIN_INNER);
+echo(COUPLER_INNER);
 TUBE_OUTER = 30.7;
 TUBE_INNER = 29;
 
-$fn=250;
+$fn=120;
 
 // Fin dimensions
 FIN_THICKNESS = 3.2;
@@ -62,10 +64,17 @@ module Ring(){
     }
 }
 
+module TopRing(){
+    difference(){
+        circle(d=COUPLER_INNER);
+        circle(d=TUBE_OUTER);
+    }
+}
+
 // Projects laser cut template for the ring
-projection(){
+*projection(){
     for(x = [0:MAIN_OUTER+1:200]){
-        translate([x,0,0]) {Ring();}
+        translate([x,0,0]) rotate(45, [0,0,1]) Ring();
     }
 }
 
@@ -94,3 +103,7 @@ projection(){
         Ring();
     }
 }
+
+*projection() rotate(45, [0,0,1]) Ring();
+
+TopRing();
