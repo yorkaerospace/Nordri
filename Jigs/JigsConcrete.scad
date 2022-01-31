@@ -1,5 +1,5 @@
-include <./jigs_generic/rocket_base_clamp.scad>;
-include <./jigs_generic/rocket_fin_clamp.scad>;
+use <./JigsGeneric/FinAssembly/BaseClamp.scad>;
+use <./JigsGeneric/FinAssembly/FinClamp.scad>;
 
 tube_diameter = 54;
 
